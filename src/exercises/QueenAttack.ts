@@ -10,6 +10,7 @@ type Position = Board;
 
 type GameBoard = number[][];
 
+// Accounting for the possibility of a bigger board
 const standardChessBoard: Board = { x: 8, y: 8 };
 
 const createChessBoard = (board: Board): number[][] =>
@@ -23,18 +24,14 @@ const queenTakesQueen = (
   chessBoard: GameBoard
 ): boolean =>
   dualQueenPositionValidator(blackQueen, whiteQueen, chessBoard) &&
-  (queenTakesQueenCastle(blackQueen, whiteQueen) ||
-    queenTakesQueenVerticle(blackQueen, whiteQueen));
+  queensDifferentPositionValidator(blackQueen, whiteQueen) &&
+  (castleMove(blackQueen, whiteQueen) || bishopMove(blackQueen, whiteQueen));
 
-const queenTakesQueenCastle = (
-  blackQueen: Position,
-  whiteQueen: Position
-): boolean => blackQueen.x === whiteQueen.x || blackQueen.y === whiteQueen.y;
+// The bwlow two functions could easily be used for castles or bishops seperately
+const castleMove = (blackQueen: Position, whiteQueen: Position): boolean =>
+  blackQueen.x === whiteQueen.x || blackQueen.y === whiteQueen.y;
 
-const queenTakesQueenVerticle = (
-  blackQueen: Position,
-  whiteQueen: Position
-): boolean =>
+const bishopMove = (blackQueen: Position, whiteQueen: Position): boolean =>
   Math.abs(blackQueen.x - whiteQueen.x) ===
   Math.abs(blackQueen.y - whiteQueen.y);
 
@@ -60,4 +57,6 @@ export {
   chessBoard,
   dualQueenPositionValidator,
   queensDifferentPositionValidator,
+  bishopMove,
+  castleMove,
 };

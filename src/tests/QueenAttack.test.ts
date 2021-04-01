@@ -4,9 +4,11 @@ import {
   chessBoard,
   dualQueenPositionValidator,
   queensDifferentPositionValidator,
+  bishopMove,
+  castleMove,
 } from "../exercises/QueenAttack";
 
-describe("Can one queen take another", () => {
+describe("queenTakesQueen main function", () => {
   it("queen takes queen Castle", () => {
     expect(
       queenTakesQueen({ x: 1, y: 3 }, { x: 2, y: 3 }, chessBoard)
@@ -25,6 +27,24 @@ describe("Can one queen take another", () => {
     expect(
       queenTakesQueen({ x: 1, y: 5 }, { x: 2, y: 3 }, chessBoard)
     ).toBeFalsy();
+    expect(
+      queenTakesQueen({ x: 3, y: 1 }, { x: 1, y: 3 }, chessBoard)
+    ).toBeTruthy();
+  });
+});
+
+describe("queenTakesQueen castle and bishop functions", () => {
+  it("queen takes queen Bishop helper function", () => {
+    expect(bishopMove({ x: 1, y: 3 }, { x: 2, y: 4 })).toBeTruthy();
+    expect(bishopMove({ x: 1, y: 5 }, { x: 2, y: 3 })).toBeFalsy();
+    expect(bishopMove({ x: 7, y: 0 }, { x: 6, y: 1 })).toBeTruthy();
+  });
+
+  it("queen takes queen Castle helper function", () => {
+    expect(castleMove({ x: 1, y: 3 }, { x: 2, y: 4 })).toBeFalsy();
+    expect(castleMove({ x: 1, y: 5 }, { x: 1, y: 3 })).toBeTruthy();
+    expect(castleMove({ x: 7, y: 0 }, { x: 6, y: 1 })).toBeFalsy();
+    expect(castleMove({ x: 0, y: 5 }, { x: 1, y: 5 })).toBeTruthy();
   });
 });
 
